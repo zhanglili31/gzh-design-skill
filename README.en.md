@@ -4,7 +4,7 @@
 
 # gzh-design-skill · WeChat Layout Skill
 
-**Turn Markdown into polished HTML you can paste straight into the WeChat editor**
+**Turn Markdown into polished HTML, push it to WeChat drafts, then publish from your phone**
 
 6 curated themes + theme generator · code blocks / images / GIFs · auto section numbers & keyword marks · two-gate quality checks
 
@@ -31,7 +31,8 @@ A layout Skill for AI agents (Claude Code / Codex / Cursor …). You write Markd
 - **Full-width CJK punctuation** in prose; kept as-is inside code blocks.
 - **Paste-safe**: all styles inlined, every text node wrapped in `<span leaf="">`, avoiding `<style>/<div>/class/grid/position` that WeChat strips.
 - **Two-gate quality checks**: `component_lint.py` (library source) + `validate_gzh_html.py` (final output) form a reproducible edit → verify → fix loop.
-- **One-click copy**: a preview page with a **Copy** button — click to copy the rich text and paste straight into WeChat, no manual select-all.
+- **Direct draft delivery**: when publication is explicitly requested, validated content, cover art, and local images are pushed to WeChat Drafts; choose the matching draft in the mobile app and publish without editing the body.
+- **One-click copy fallback**: a preview page with a **Copy** button remains available for local review or manual-paste compatibility.
 
 ## ✅ Good for / ❌ Not for
 
@@ -117,7 +118,11 @@ Scan to join the **official WeChat Work group** (dynamic QR, auto-invite) — ch
 3. **Parse Markdown** — headings, chapters, bold, highlight, quotes, images, code, lists.
 4. **Assemble HTML** — from real components; apply numbering, underlines, full-width punctuation, signature.
 5. **Validate** — run `validate_gzh_html.py`, ship only at 0 ERROR.
-6. **Output** — a clean fragment + a preview page with a **Copy** button; open it, click "Copy to WeChat", then paste into the editor (no manual select-all).
+6. **Publish** — normally emits a clean fragment plus a preview for review; when the user explicitly asks to push a draft or publish, it sends the validated article to WeChat Drafts. Select the matching title in the mobile app and publish it.
+
+### Draft publishing
+
+Publishing no longer routes the article body through the phone editor: the agent pushes the validated HTML to WeChat Drafts, and the phone is only used to select and publish that draft. This requires a verified official account with Draft API access, a whitelist egress route, and matching AppID/AppSecret in `credvault`. See [references/draft-publishing.md](references/draft-publishing.md) for the authorization gate and configuration.
 
 ## 🧩 Platform limits (enforced)
 
@@ -146,7 +151,7 @@ Source gate flags `white-space:pre` (blank bloat), full-border dashed frames in 
 gzh-design/
 ├── SKILL.md                 # layout workflow (agent entry)
 ├── references/              # 6 theme libs + generator + shared lib + theme-index + eval-cases
-├── scripts/                 # validate_gzh_html.py + component_lint.py
+├── scripts/                 # validate_gzh_html.py + component_lint.py + push_draft.py
 ├── assets/                  # sample-article.md + theme-previews/
 └── docs/gallery/            # browser preview of themes
 ```
